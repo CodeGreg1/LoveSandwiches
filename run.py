@@ -103,8 +103,23 @@ def calculate_stock_data(data):
       average = sum(int_column)/ len(int_column)
       stock_num = average * 1.1
       new_stock_data.append(round(stock_num))
-
     return new_stock_data
+
+def final_statement(data):
+    '''
+    Dictionary creation for how many sandwiches for the next market
+    '''
+    print(f'Make the following numbers of sandwiches for next market:\n')
+    new_stock_data = []
+    for column in data:
+      int_column = [int(num) for num in column]
+      average = sum(int_column)/ len(int_column)
+      stock_num = average * 1.1
+      new_stock_data.append(round(stock_num))
+    stock_header = SHEET.worksheet('stock').get_all_values()
+    header_row = stock_header[0]
+    mydictionary = dict(zip(header_row,new_stock_data))
+    print(mydictionary)
 
 
 def main():
@@ -119,6 +134,7 @@ def main():
     sales_columns = get_last_entries_sales()
     stock_data = calculate_stock_data(sales_columns)
     update_worksheet(stock_data,'stock')
+    final_statement(sales_columns)
 
 print('Welcome to Love Sandwiches Data Automation')
 main()
